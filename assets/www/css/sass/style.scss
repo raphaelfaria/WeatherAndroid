@@ -1,0 +1,146 @@
+// Colours
+
+$sunny: #F8CE00;
+
+
+
+
+
+// Layout
+
+html, body {
+  font-family: "Roboto";
+  font-weight: 300;
+  color: white;
+  width: 100%;
+  height: 100%; 
+  cursor: default;
+}
+
+#content-wrapper {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  // background-color: $sunny;
+  position: relative;
+}
+
+#menu-button {
+  position: absolute;
+  padding: 15px;
+  top: 0;
+  right: -80px;
+  background-color: transparent;
+}
+
+#menu {
+  height: 100%;
+  width: 400px;
+  z-index: 100;
+  background-color: white;
+  position: absolute;
+  top: 0;
+  left: -400px;
+
+  -webkit-transition: all .1s;
+  -moz-transition: all .1s;
+  transition: all .1s;
+
+  &.menu-active {
+    left: 0;
+
+    box-shadow: 4px 0 6px rgba(#000, 0.3);
+  }
+}
+
+#forecast-wrapper {
+  // overflow: hidden;
+  width: 500px;
+  // background-color: #fff;
+  margin: 50px auto 0 auto;
+
+  text-transform: lowercase;
+
+
+  .time-location {
+
+    overflow: hidden;
+    font-size: 45px;
+    line-height: 50px;
+
+    .time {
+      text-align: right;
+      float: left;
+      width: 40%;
+      margin-right: 10%;
+    }
+
+    .location {
+      float: left;
+      width: 50%;
+    }
+  }
+
+  .weather-main {
+    overflow: hidden;
+
+    .weather-icon {
+      font-size: 150px;
+      width: 45%;
+      height: 225px;
+      overflow: hidden;
+      float: left;
+      margin-right: 3%;
+    }
+    .temp {
+      width: 52%;
+      overflow: hidden;
+      font-size: 170px;
+      line-height: 225px;
+      font-weight: 100 !important;
+    }
+  }
+  .weather-info {
+    width: 100%;
+    // overflow: hidden;
+    .weather-condition {
+      text-align: right;
+      float: left;
+      font-size: 45px;
+      width: 40%;
+      margin-right: 10%;
+    }
+    .min-max {
+      float: left;
+      font-size: 45px;
+      width: 50%;
+    }
+  }
+}
+
+
+footer {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  overflow: hidden;
+  .hourly {
+    li {
+      width: 6.25%;
+      height: 30px;
+      float: left;
+
+      -webkit-transition: all .2s;
+      -moz-transition: all .2s;
+      transition: all .2s;
+
+      // &:nth-child(odd) {
+      //   background-color: #000;
+      // }
+
+      // &:nth-child(even) {
+      //   background-color: #fff;
+      // }
+    }
+  }
+}

@@ -1,0 +1,92 @@
+html, body {
+  font-family: "Roboto";
+  font-weight: 300;
+  color: white;
+  width: 100%;
+  height: 100%;
+  cursor: default; }
+
+#content-wrapper {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative; }
+
+#menu-button {
+  position: absolute;
+  padding: 15px;
+  top: 0;
+  right: -80px;
+  background-color: transparent; }
+
+#menu {
+  height: 100%;
+  width: 400px;
+  z-index: 100;
+  background-color: white;
+  position: absolute;
+  top: 0;
+  left: -400px;
+  -webkit-transition: all .1s;
+  -moz-transition: all .1s;
+  transition: all .1s; }
+  #menu.menu-active {
+    left: 0;
+    box-shadow: 4px 0 6px rgba(0, 0, 0, 0.3); }
+
+#forecast-wrapper {
+  width: 500px;
+  margin: 50px auto 0 auto;
+  text-transform: lowercase; }
+  #forecast-wrapper .time-location {
+    overflow: hidden;
+    font-size: 45px;
+    line-height: 50px; }
+    #forecast-wrapper .time-location .time {
+      text-align: right;
+      float: left;
+      width: 40%;
+      margin-right: 10%; }
+    #forecast-wrapper .time-location .location {
+      float: left;
+      width: 50%; }
+  #forecast-wrapper .weather-main {
+    overflow: hidden; }
+    #forecast-wrapper .weather-main .weather-icon {
+      font-size: 150px;
+      width: 45%;
+      height: 225px;
+      overflow: hidden;
+      float: left;
+      margin-right: 3%; }
+    #forecast-wrapper .weather-main .temp {
+      width: 52%;
+      overflow: hidden;
+      font-size: 170px;
+      line-height: 225px;
+      font-weight: 100 !important; }
+  #forecast-wrapper .weather-info {
+    width: 100%; }
+    #forecast-wrapper .weather-info .weather-condition {
+      text-align: right;
+      float: left;
+      font-size: 45px;
+      width: 40%;
+      margin-right: 10%; }
+    #forecast-wrapper .weather-info .min-max {
+      float: left;
+      font-size: 45px;
+      width: 50%; }
+
+footer {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  overflow: hidden; }
+  footer .hourly li {
+    width: 6.25%;
+    height: 30px;
+    float: left;
+    -webkit-transition: all .2s;
+    -moz-transition: all .2s;
+    transition: all .2s; }
