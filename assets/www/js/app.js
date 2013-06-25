@@ -19,6 +19,7 @@ $(function(){
   });
 
   windowHeight = $(window).height();
+  windowWidth = $(window).width();
 
   var geoLocal = false;
 
@@ -38,13 +39,6 @@ $(function(){
   var minMaxDiv = $('.min-max');
   var weatherIcon = $('.weather-icon img');
 
-  // $('html').mousedown(function() {
-  //   $('.hourly li').css('height', '150px');
-  // });
-  // $('html').mouseup(function() {
-  //   $('.hourly li').css('height', '30px');
-  // });
-
   var menu = $('#menu');
 
   wrapper.hammer().on("touch", function(event) {
@@ -52,7 +46,7 @@ $(function(){
       toggleMenu()
       // menu.toggleClass('menu-active');
     else
-      $('.hourly li').css('height', (windowHeight / 3) + 'px');
+      $('.hourly li').css('height', (windowHeight / 4) + 'px');
   });
   wrapper.hammer().on("release", function(event) {
     $('.hourly li').css('height', '30px');
@@ -68,20 +62,47 @@ $(function(){
 
   var liCur = 0;
 
-  wrapper.hammer().on("dragright", function(event) {
-    if (liCur < 15) {
+  var posHolder;
+  var posStart;
+
+  var dragThreshold = (windowWidth * 0.6)/16;
+
+
+  wrapper.hammer().on("dragstart", function(event) {
+
+    posStart = event.gesture.center.pageX;
+    posHolder = posStart;
+  });
+
+  wrapper.hammer({drag_min_distance: 1}).on("drag", function(event) {
+    console.log('start: ' + posHolder + ' pageX: ' + event.gesture.center.pageX + ' delta: ' + event.gesture.deltaX);
+
+    if (liCur == 15 && event.gesture.center.pageX > posHolder) {
+      posHolder = event.gesture.center.pageX;
+    }
+    if (liCur == 0 && event.gesture.center.pageX < posHolder) {
+      posHolder = event.gesture.center.pageX;
+    }
+    if (event.gesture.center.pageX >= posHolder + dragThreshold && liCur < 15) {
       liCur++;
       var bgc = hourly[liCur].css('background-color');
       wrapper.css('background-color', bgc);
+      posHolder = event.gesture.center.pageX;
     }
-  });
-  wrapper.hammer().on("dragleft", function(event) {
-    if (liCur > 0) {
+    else if (event.gesture.center.pageX <= posHolder - dragThreshold && liCur > 0) {
       liCur--;
       var bgc = hourly[liCur].css('background-color');
       wrapper.css('background-color', bgc);
+      posHolder = event.gesture.center.pageX;
     }
   });
+  // wrapper.hammer().on("dragleft", function(event) {
+  //   if (liCur > 0) {
+  //     liCur--;
+  //     var bgc = hourly[liCur].css('background-color');
+  //     wrapper.css('background-color', bgc);
+  //   }
+  // });
 
 
   // if (geoLocal == true) {
