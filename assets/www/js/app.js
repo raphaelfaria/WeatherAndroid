@@ -1,15 +1,5 @@
 $(function(){
 
-  //Resize icon
-
-  // resizeIcon();
-
-  // window.onresize = function(event) {
-  //   resizeIcon();
-  // }
-
-  // $('.weather-icon').fitText();
-
   //Get weather
 
   var hourly = [];
@@ -57,7 +47,8 @@ $(function(){
 
   $('#menu-button').hammer().on("touch", function(event) {
     // menu.toggleClass('menu-active');
-    toggleMenu()
+    toggleMenu();
+    wrapper.css('background-color', bgc);
   });
 
   var liCur = 0;
@@ -96,27 +87,20 @@ $(function(){
       posHolder = event.gesture.center.pageX;
     }
   });
-  // wrapper.hammer().on("dragleft", function(event) {
-  //   if (liCur > 0) {
-  //     liCur--;
-  //     var bgc = hourly[liCur].css('background-color');
-  //     wrapper.css('background-color', bgc);
-  //   }
-  // });
 
 
-  // if (geoLocal == true) {
-  //   if (navigator.geolocation) {
-  //       navigator.geolocation.getCurrentPosition(locationSuccess, locationError);
-  //   }
-  //   else {
-  //       alert('Error in localization');
-  //   }
-  // }
-  // else {
-  //   var weatherAPI = 'http://api.openweathermap.org/data/2.5/weather?q=' + cityName + '&callback=?&lang=' + lang;
-  //   getWeatherInfo(weatherAPI);
-  // }
+  if (geoLocal == true) {
+     if (navigator.geolocation) {
+         navigator.geolocation.getCurrentPosition(locationSuccess, locationError);
+     }
+     else {
+         alert('Error in localization');
+     }
+  }
+  else {
+     var weatherAPI = 'http://api.openweathermap.org/data/2.5/weather?q=' + cityName + '&callback=?&lang=' + lang;
+     getWeatherInfo(weatherAPI);
+  }
 
   function toggleMenu() {
     menu.toggleClass('menu-active');
@@ -216,7 +200,7 @@ $(function(){
     else if (conditionId == '602')
       return 'snow-heavy';
 
-    else if (conditionId == '701' || conditionId == '711' || conditionId == '731' || conditionId == '741')
+    else if (conditionId == '701' || conditionId == '711' || conditionId == '731' || conditionId == '741' || conditionID == '751')
       return 'fog';
 
     else if (conditionId == '721')
