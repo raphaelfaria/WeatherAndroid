@@ -48,7 +48,7 @@ $(function(){
   $('#menu-button').hammer().on("touch", function(event) {
     // menu.toggleClass('menu-active');
     toggleMenu();
-    wrapper.css('background-color', bgc);
+    wrapper.css('background-color', "#000");
   });
 
   var liCur = 0;
@@ -101,6 +101,10 @@ $(function(){
      var weatherAPI = 'http://api.openweathermap.org/data/2.5/weather?q=' + cityName + '&callback=?&lang=' + lang;
      getWeatherInfo(weatherAPI);
   }
+
+  wrapper.hammer().on("doubletap", function(event) {
+       getWeatherInfo(weatherAPI);
+  });
 
   function toggleMenu() {
     menu.toggleClass('menu-active');
@@ -200,7 +204,7 @@ $(function(){
     else if (conditionId == '602')
       return 'snow-heavy';
 
-    else if (conditionId == '701' || conditionId == '711' || conditionId == '731' || conditionId == '741' || conditionID == '751')
+    else if (conditionId == '701' || conditionId == '711' || conditionId == '731' || conditionId == '741' || conditionId == '751')
       return 'fog';
 
     else if (conditionId == '721')
