@@ -8,12 +8,18 @@ $(function(){
     hourly.push($(this));
   });
 
+  var forecastList = [];
+
+  $('.forecast-list li').each(function(){
+    forecastList.push($(this));
+  });
+
   windowHeight = $(window).height();
   windowWidth = $(window).width();
 
   var geoLocal = false;
 
-  var cityName = 'Timimoun';
+  var cityName = 'Sao%20Paulo';
 
   var lang = 'en'
 
@@ -78,12 +84,16 @@ $(function(){
       liCur++;
       var bgc = hourly[liCur].css('background-color');
       wrapper.css('background-color', bgc);
+      $('.forecast-list li').removeClass('show');
+      forecastList[liCur].addClass('show');
       posHolder = event.gesture.center.pageX;
     }
     else if (event.gesture.center.pageX <= posHolder - dragThreshold && liCur > 0) {
       liCur--;
       var bgc = hourly[liCur].css('background-color');
       wrapper.css('background-color', bgc);
+      $('.forecast-list li').removeClass('show');
+      forecastList[liCur].addClass('show');
       posHolder = event.gesture.center.pageX;
     }
   });
@@ -175,31 +185,21 @@ $(function(){
 
     var cacheForecast = $.parseJSON(localStorage.forecastCache);
 
+    var markup;
+
     for (var i = 0; i < 16; i++) {
-      if (i == 0)
+      if (i == 0) {
         hourly[i].css('background-color', getColour(temp, hum, sunrise, sunset, localtime));
-      else
+        markup = "<div class='time-location'><div class='time'>now</div><p class='location'>" + city + "</p></div><div class='weather-main'><div class='weather-icon'><img alt='' src='" + iconLocation + getIcon(conditionId) + iconExt + "' width='225px'></div><div class='temp'>" + tempConverter(temp) + 'º' + "</div></div><div class='weather-info'><p class='weather-condition'>" + condition + "</p><span class='min-max'>&nbsp;</span></div>"
+        forecastList[i].append(markup);
+      }
+
+      else {
         hourly[i].css('background-color', getColour(cacheForecast.data.list[i - 1].main.temp, cacheForecast.data.list[i - 1].main.humidity, sunrise, sunset, cacheForecast.data.list[i - 1].dt * 1000));
-    }
-
-    // for(var i = 0 ; i < 15 ; i++){
-    //   var temp[i] = cacheForecast.data.list[i].main.temp;
-    //   var hum[i] = cacheForecast.data.list[i].main.humidity;
-    //   var conditionId[i] = cacheForecast.data.list[i].weather[0].id;
-    //   var mainCondition[i] = cacheForecast.data.list[i].weather[0].main;
-    //   var condition[i] = cacheForecast.data.list[i].weather[0].description;
-    //   var minMax[i] = [cacheForecast.data.list[i].main.temp_min, cacheForecast.data.list[i].main.temp_max]
-
-    //   weatherIcon.attr("src", iconLocation + getIcon(conditionId[i]) + iconExt);
-    //   tempDiv.html(tempConverter(temp[i]) + 'º');
-    //   conditionDiv.html(condition);
-    //   minMaxDiv.html(tempConverter(minMax[0]) + 'º / ' + tempConverter(minMax[1]) + 'º')
-    //   var HSL = getColour(temp, hum, sunrise, sunset, localtime);
-    //   // var hslString = 'hsl('+ HSL[0] + ',' + HSL[1] + ', 0.5)';
-    //   wrapper.css('background-color', 'hsl('+ HSL[0] + ',' + HSL[1] + ',' + HSL[2] + ')');
-    // }
-
-    
+        markup = "<div class='time-location'><div class='time'>now</div><p class='location'>" + city + "</p></div><div class='weather-main'><div class='weather-icon'><img alt='' src='" + iconLocation + getIcon(cacheForecast.data.list[i - 1].weather[0].id) + iconExt + "' width='225px'></div><div class='temp'>" + tempConverter(cacheForecast.data.list[i - 1].main.temp) + 'º' + "</div></div><div class='weather-info'><p class='weather-condition'>" + cacheForecast.data.list[i - 1].weather[0].description + "</p><span class='min-max'>&nbsp;</span></div>";
+        forecastList[i].append(markup);
+      }
+    }   
   }
 
   function locationError(error){
