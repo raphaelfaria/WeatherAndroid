@@ -8,12 +8,18 @@ $(function(){
     hourly.push($(this));
   });
 
+  var forecastList = [];
+
+  $('.forecast-list li').each(function(){
+    forecastList.push($(this));
+  });
+
   windowHeight = $(window).height();
   windowWidth = $(window).width();
 
   var geoLocal = false;
 
-  var cityName = 'Timimoun';
+  var cityName = 'Sao%20Paulo';
 
   var lang = 'en'
 
@@ -78,16 +84,19 @@ $(function(){
       liCur++;
       var bgc = hourly[liCur].css('background-color');
       wrapper.css('background-color', bgc);
+      $('.forecast-list li').removeClass('show');
+      forecastList[liCur].addClass('show');
       posHolder = event.gesture.center.pageX;
     }
     else if (event.gesture.center.pageX <= posHolder - dragThreshold && liCur > 0) {
       liCur--;
       var bgc = hourly[liCur].css('background-color');
       wrapper.css('background-color', bgc);
+      $('.forecast-list li').removeClass('show');
+      forecastList[liCur].addClass('show');
       posHolder = event.gesture.center.pageX;
     }
   });
-
 
   if (geoLocal == true) {
      if (navigator.geolocation) {
@@ -99,11 +108,14 @@ $(function(){
   }
   else {
      var weatherAPI = 'http://api.openweathermap.org/data/2.5/weather?q=' + cityName + '&callback=?&lang=' + lang;
-     getWeatherInfo(weatherAPI);
+
+     var forecastAPI = 'http://api.openweathermap.org/data/2.5/forecast?q='+ cityName +'&callback=?&lang=' + lang;
+
+     getWeatherInfo(weatherAPI, forecastAPI);
   }
 
   wrapper.hammer().on("doubletap", function(event) {
-       getWeatherInfo(weatherAPI);
+       getWeatherInfo(weatherAPI, forecastAPI);
   });
 
   function toggleMenu() {
@@ -120,10 +132,12 @@ $(function(){
 
     var weatherAPI = 'http://api.openweathermap.org/data/2.5/weather?lat='+crd.latitude+'&lon='+crd.longitude+'&callback=?&lang=' + lang;
 
-    getWeatherInfo(weatherAPI);
+    var forecastAPI = 'http://api.openweathermap.org/data/2.5/forecast?lat='+crd.latitude+'&lon='+crd.longitude+'&callback=?&lang=' + lang;
+
+    getWeatherInfo(weatherAPI, forecastAPI);
   }
 
-  function getWeatherInfo(weatherAPI) {
+  function getWeatherInfo(weatherAPI, forecastAPI) {
 
     $.getJSON(weatherAPI, function(response){
       localStorage.weatherCache = JSON.stringify({
@@ -138,6 +152,7 @@ $(function(){
 
     var offset = d.getTimezoneOffset()*60*1000;
     var localtime = d.getTime() + offset;
+
     var sunrise = cache.data.sys.sunrise * 1000 + offset;
     var sunset = cache.data.sys.sunset * 1000 + offset;
     var city = cache.data.name;
@@ -156,8 +171,35 @@ $(function(){
     tempDiv.html(tempConverter(temp) + 'º');
     conditionDiv.html(condition);
     minMaxDiv.html(tempConverter(minMax[0]) + 'º / ' + tempConverter(minMax[1]) + 'º')
-    var HSL = getColour(temp, hum, sunrise, sunset, localtime);
-    wrapper.css('background-color', 'hsl('+ HSL[0] + ',' + HSL[1] + ',' + HSL[2] + ')');
+    // var HSL = getColour(temp, hum, sunrise, sunset, localtime);
+    // var hslString = 'hsl('+ HSL[0] + ',' + HSL[1] + ', 0.5)';
+    wrapper.css('background-color', getColour(temp, hum, sunrise, sunset, localtime));
+
+
+    $.getJSON(forecastAPI, function(response){
+      localStorage.forecastCache = JSON.stringify({
+        timestamp:(new Date()).getTime(),
+        data: response
+      });
+    });
+
+    var cacheForecast = $.parseJSON(localStorage.forecastCache);
+
+    var markup;
+
+    for (var i = 0; i < 16; i++) {
+      if (i == 0) {
+        hourly[i].css('background-color', getColour(temp, hum, sunrise, sunset, localtime));
+        markup = "<div class='time-location'><div class='time'>now</div><p class='location'>" + city + "</p></div><div class='weather-main'><div class='weather-icon'><img alt='' src='" + iconLocation + getIcon(conditionId) + iconExt + "' width='225px'></div><div class='temp'>" + tempConverter(temp) + 'º' + "</div></div><div class='weather-info'><p class='weather-condition'>" + condition + "</p><span class='min-max'>&nbsp;</span></div>"
+        forecastList[i].append(markup);
+      }
+
+      else {
+        hourly[i].css('background-color', getColour(cacheForecast.data.list[i - 1].main.temp, cacheForecast.data.list[i - 1].main.humidity, sunrise, sunset, cacheForecast.data.list[i - 1].dt * 1000));
+        markup = "<div class='time-location'><div class='time'>now</div><p class='location'>" + city + "</p></div><div class='weather-main'><div class='weather-icon'><img alt='' src='" + iconLocation + getIcon(cacheForecast.data.list[i - 1].weather[0].id) + iconExt + "' width='225px'></div><div class='temp'>" + tempConverter(cacheForecast.data.list[i - 1].main.temp) + 'º' + "</div></div><div class='weather-info'><p class='weather-condition'>" + cacheForecast.data.list[i - 1].weather[0].description + "</p><span class='min-max'>&nbsp;</span></div>";
+        forecastList[i].append(markup);
+      }
+    }   
   }
 
   function locationError(error){
@@ -271,7 +313,8 @@ $(function(){
     else
       HSL[2] = '50%';
 
-    return HSL;
+    // return HSL;
+    return 'hsl('+ HSL[0] + ',' + HSL[1] + ',' + HSL[2] + ')'
   }
 
 

@@ -38,6 +38,10 @@ html, body {
   width: 500px;
   margin: 50px auto 0 auto;
   text-transform: lowercase; }
+  #forecast-wrapper .forecast-list li {
+    display: none; }
+    #forecast-wrapper .forecast-list li.show {
+      display: block !important; }
   #forecast-wrapper .time-location {
     overflow: hidden;
     font-size: 45px;

@@ -61,6 +61,16 @@ html, body {
 
   text-transform: lowercase;
 
+  .forecast-list {
+    li {
+      display: none;
+
+      &.show {
+        display: block !important;
+      }
+    }
+  }
+
 
   .time-location {
 
