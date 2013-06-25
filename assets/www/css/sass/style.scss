@@ -71,7 +71,6 @@ html, body {
     }
   }
 
-
   .time-location {
 
     overflow: hidden;
@@ -139,10 +138,17 @@ footer {
       width: 6.25%;
       height: 30px;
       float: left;
+      padding-bottom: 8px;
 
-      -webkit-transition: all .2s;
-      -moz-transition: all .2s;
-      transition: all .2s;
+      -webkit-transition: height .1s;
+      -moz-transition: height .1s;
+      transition: height .1s;
+
+
+      &.active {
+        padding-bottom: 0;
+        border-bottom: solid 8px white;
+      }
 
       // &:nth-child(odd) {
       //   background-color: #000;

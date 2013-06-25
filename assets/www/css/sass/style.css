@@ -91,6 +91,10 @@ footer {
     width: 6.25%;
     height: 30px;
     float: left;
-    -webkit-transition: all .2s;
-    -moz-transition: all .2s;
-    transition: all .2s; }
+    padding-bottom: 8px;
+    -webkit-transition: height .1s;
+    -moz-transition: height .1s;
+    transition: height .1s; }
+    footer .hourly li.active {
+      padding-bottom: 0;
+      border-bottom: solid 8px white; }

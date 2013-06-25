@@ -19,7 +19,7 @@ $(function(){
 
   var geoLocal = false;
 
-  var cityName = 'Sao%20Paulo';
+  var cityName = 'New%20York';
 
   var lang = 'en'
 
@@ -54,7 +54,6 @@ $(function(){
   $('#menu-button').hammer().on("touch", function(event) {
     // menu.toggleClass('menu-active');
     toggleMenu();
-    wrapper.css('background-color', "#000");
   });
 
   var liCur = 0;
@@ -86,6 +85,8 @@ $(function(){
       wrapper.css('background-color', bgc);
       $('.forecast-list li').removeClass('show');
       forecastList[liCur].addClass('show');
+      $('.hourly li').removeClass('active');
+      hourly[liCur].addClass('active');
       posHolder = event.gesture.center.pageX;
     }
     else if (event.gesture.center.pageX <= posHolder - dragThreshold && liCur > 0) {
@@ -94,6 +95,8 @@ $(function(){
       wrapper.css('background-color', bgc);
       $('.forecast-list li').removeClass('show');
       forecastList[liCur].addClass('show');
+      $('.hourly li').removeClass('active');
+      hourly[liCur].addClass('active');
       posHolder = event.gesture.center.pageX;
     }
   });
@@ -286,9 +289,16 @@ $(function(){
 
   function getColour(temp, hum, sunrise, sunset, time) {
 
+    var curDay = time;
+
     var riseSetDif = sunset - sunrise;
 
     var threshold = riseSetDif / 2;
+
+    if (sunset + riseSetDif * 2 < time) {
+      sunset = sunset + riseSetDif * 2;
+      sunset = sunset + riseSetDif * 2;
+    }
 
     var mid1 = sunrise - threshold;
     var mid2 = sunrise + threshold;
@@ -296,6 +306,8 @@ $(function(){
     var kelvin = 273.15;
     var minTemp = -10 + kelvin;
     var maxTemp = 30 + kelvin;
+
+    var lightness;
 
     var HSL = new Array();
 
@@ -308,10 +320,17 @@ $(function(){
 
     HSL[1] = 0.4 * (100 - hum) + 60 + '%';
 
-    if (time < mid2)
-      HSL[2] = ((37.5 / (mid2 - mid1)) * (time - mid2) + 50) + '%';
+    if (curDay < mid2)
+      lightness = (((37.5 / (mid2 - mid1)) * (curDay - mid2)) + 50);
     else
+      lightness = (((37.5 / (mid2 - mid1)) * (curDay - mid2)) + 12.5);
+
+
+
+    if (lightness > 50)
       HSL[2] = '50%';
+    else
+      HSL[2] = lightness + '%';
 
     // return HSL;
     return 'hsl('+ HSL[0] + ',' + HSL[1] + ',' + HSL[2] + ')'
