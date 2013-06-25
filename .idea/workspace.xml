@@ -2,18 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7e4fed7a-ec32-47b1-82b2-bbb4af047aaa" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/dictionaries/raphael.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gen/com/codelogic/weather/Manifest.java" afterPath="$PROJECT_DIR$/gen/com/codelogic/weather/Manifest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gen/com/codelogic/weather/R.java" afterPath="$PROJECT_DIR$/gen/com/codelogic/weather/R.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WeatherAndroid.iml" afterPath="$PROJECT_DIR$/WeatherAndroid.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/www/js/app.js" afterPath="$PROJECT_DIR$/assets/www/js/app.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="WeatherAndroid.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="7e4fed7a-ec32-47b1-82b2-bbb4af047aaa" time="1372084284218" ignored="false" />
+    <file path="/Dummy.txt" changelist="7e4fed7a-ec32-47b1-82b2-bbb4af047aaa" time="1372168128566" ignored="false" />
     <file path="/fragment.java" changelist="7e4fed7a-ec32-47b1-82b2-bbb4af047aaa" time="1372084382919" ignored="false" />
+    <file path="/app.js" changelist="7e4fed7a-ec32-47b1-82b2-bbb4af047aaa" time="1372169809869" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,7 +24,6 @@
     <disable_hints />
   </component>
   <component name="DebuggerManager">
-    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_any default_suspend_policy="SuspendAll" default_condition_enabled="true">
       <breakpoint>
         <option name="NOTIFY_CAUGHT" value="true" />
@@ -65,6 +60,7 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </breakpoint_any>
+    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_rules />
     <ui_properties />
   </component>
@@ -83,19 +79,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="index.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/assets/www/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="47" column="22" selection-start="2250" selection-end="2250" vertical-scroll-proportion="0.0">
-              <folding />
+            <state line="84" column="0" selection-start="4096" selection-end="4096" vertical-scroll-proportion="0.39655173">
+              <folding>
+                <marker date="1372171750000" expanded="true" signature="4096:4335" placeholder="..." />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="app.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="app.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/assets/www/js/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="37" column="32" selection-start="651" selection-end="651" vertical-scroll-proportion="0.04032258">
+            <state line="90" column="66" selection-start="2201" selection-end="2201" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -119,8 +117,8 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/assets/www/index.html" />
         <option value="$PROJECT_DIR$/assets/www/js/app.js" />
+        <option value="$PROJECT_DIR$/assets/www/index.html" />
       </list>
     </option>
   </component>
@@ -233,11 +231,11 @@
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_AVD" value="jellybean" />
     <property name="restartRequiresConfirmation" value="true" />
-    <property name="FullScreen" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
+    <property name="FullScreen" value="false" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="options.searchVisible" value="true" />
     <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="RunManager" selected="Android Application.WeatherAndroid">
     <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Tests">
@@ -383,7 +381,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="1280" height="736" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -400,7 +398,7 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17990276" sideWeight="0.67045456" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32954547" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -486,7 +484,9 @@
     <entry file="file://$PROJECT_DIR$/assets/www/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="47" column="22" selection-start="2250" selection-end="2250" vertical-scroll-proportion="0.0">
-          <folding />
+          <folding>
+            <marker date="1372171750000" expanded="true" signature="4096:4335" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -507,7 +507,9 @@
     <entry file="file://$PROJECT_DIR$/assets/www/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="47" column="22" selection-start="2250" selection-end="2250" vertical-scroll-proportion="0.0">
-          <folding />
+          <folding>
+            <marker date="1372171750000" expanded="true" signature="4096:4335" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -528,7 +530,9 @@
     <entry file="file://$PROJECT_DIR$/assets/www/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="47" column="22" selection-start="2250" selection-end="2250" vertical-scroll-proportion="0.0">
-          <folding />
+          <folding>
+            <marker date="1372171750000" expanded="true" signature="4096:4335" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -549,7 +553,9 @@
     <entry file="file://$PROJECT_DIR$/assets/www/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="47" column="22" selection-start="2250" selection-end="2250" vertical-scroll-proportion="0.0">
-          <folding />
+          <folding>
+            <marker date="1372171750000" expanded="true" signature="4096:4335" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -572,17 +578,19 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/assets/www/index.html">
+    <entry file="file://$PROJECT_DIR$/assets/www/js/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="47" column="22" selection-start="2250" selection-end="2250" vertical-scroll-proportion="0.0">
+        <state line="90" column="66" selection-start="2201" selection-end="2201" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/assets/www/js/app.js">
+    <entry file="file://$PROJECT_DIR$/assets/www/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="37" column="32" selection-start="651" selection-end="651" vertical-scroll-proportion="0.04032258">
-          <folding />
+        <state line="84" column="0" selection-start="4096" selection-end="4096" vertical-scroll-proportion="0.39655173">
+          <folding>
+            <marker date="1372171750000" expanded="true" signature="4096:4335" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
