@@ -88,7 +88,6 @@ $(function(){
     }
   });
 
-
   if (geoLocal == true) {
      if (navigator.geolocation) {
          navigator.geolocation.getCurrentPosition(locationSuccess, locationError);
@@ -99,11 +98,14 @@ $(function(){
   }
   else {
      var weatherAPI = 'http://api.openweathermap.org/data/2.5/weather?q=' + cityName + '&callback=?&lang=' + lang;
-     getWeatherInfo(weatherAPI);
+
+     var forecastAPI = 'http://api.openweathermap.org/data/2.5/forecast?q='+ cityName +'&callback=?&lang=' + lang;
+
+     getWeatherInfo(weatherAPI, forecastAPI);
   }
 
   wrapper.hammer().on("doubletap", function(event) {
-       getWeatherInfo(weatherAPI);
+       getWeatherInfo(weatherAPI, forecastAPI);
   });
 
   function toggleMenu() {
@@ -120,10 +122,12 @@ $(function(){
 
     var weatherAPI = 'http://api.openweathermap.org/data/2.5/weather?lat='+crd.latitude+'&lon='+crd.longitude+'&callback=?&lang=' + lang;
 
-    getWeatherInfo(weatherAPI);
+    var forecastAPI = 'http://api.openweathermap.org/data/2.5/forecast?lat='+crd.latitude+'&lon='+crd.longitude+'&callback=?&lang=' + lang;
+
+    getWeatherInfo(weatherAPI, forecastAPI);
   }
 
-  function getWeatherInfo(weatherAPI) {
+  function getWeatherInfo(weatherAPI, forecastAPI) {
 
     $.getJSON(weatherAPI, function(response){
       localStorage.weatherCache = JSON.stringify({
@@ -138,6 +142,7 @@ $(function(){
 
     var offset = d.getTimezoneOffset()*60*1000;
     var localtime = d.getTime() + offset;
+
     var sunrise = cache.data.sys.sunrise * 1000 + offset;
     var sunset = cache.data.sys.sunset * 1000 + offset;
     var city = cache.data.name;
@@ -156,9 +161,45 @@ $(function(){
     tempDiv.html(tempConverter(temp) + 'º');
     conditionDiv.html(condition);
     minMaxDiv.html(tempConverter(minMax[0]) + 'º / ' + tempConverter(minMax[1]) + 'º')
-    var HSL = getColour(temp, hum, sunrise, sunset, localtime);
+    // var HSL = getColour(temp, hum, sunrise, sunset, localtime);
     // var hslString = 'hsl('+ HSL[0] + ',' + HSL[1] + ', 0.5)';
-    wrapper.css('background-color', 'hsl('+ HSL[0] + ',' + HSL[1] + ',' + HSL[2] + ')');
+    wrapper.css('background-color', getColour(temp, hum, sunrise, sunset, localtime));
+
+
+    $.getJSON(forecastAPI, function(response){
+      localStorage.forecastCache = JSON.stringify({
+        timestamp:(new Date()).getTime(),
+        data: response
+      });
+    });
+
+    var cacheForecast = $.parseJSON(localStorage.forecastCache);
+
+    for (var i = 0; i < 16; i++) {
+      if (i == 0)
+        hourly[i].css('background-color', getColour(temp, hum, sunrise, sunset, localtime));
+      else
+        hourly[i].css('background-color', getColour(cacheForecast.data.list[i - 1].main.temp, cacheForecast.data.list[i - 1].main.humidity, sunrise, sunset, cacheForecast.data.list[i - 1].dt * 1000));
+    }
+
+    // for(var i = 0 ; i < 15 ; i++){
+    //   var temp[i] = cacheForecast.data.list[i].main.temp;
+    //   var hum[i] = cacheForecast.data.list[i].main.humidity;
+    //   var conditionId[i] = cacheForecast.data.list[i].weather[0].id;
+    //   var mainCondition[i] = cacheForecast.data.list[i].weather[0].main;
+    //   var condition[i] = cacheForecast.data.list[i].weather[0].description;
+    //   var minMax[i] = [cacheForecast.data.list[i].main.temp_min, cacheForecast.data.list[i].main.temp_max]
+
+    //   weatherIcon.attr("src", iconLocation + getIcon(conditionId[i]) + iconExt);
+    //   tempDiv.html(tempConverter(temp[i]) + 'º');
+    //   conditionDiv.html(condition);
+    //   minMaxDiv.html(tempConverter(minMax[0]) + 'º / ' + tempConverter(minMax[1]) + 'º')
+    //   var HSL = getColour(temp, hum, sunrise, sunset, localtime);
+    //   // var hslString = 'hsl('+ HSL[0] + ',' + HSL[1] + ', 0.5)';
+    //   wrapper.css('background-color', 'hsl('+ HSL[0] + ',' + HSL[1] + ',' + HSL[2] + ')');
+    // }
+
+    
   }
 
   function locationError(error){
@@ -269,8 +310,11 @@ $(function(){
 
     if (time < mid2)
       HSL[2] = ((37.5 / (mid2 - mid1)) * (time - mid2) + 50) + '%';
+    else
+      HSL[2] = '50%';
 
-    return HSL;
+    // return HSL;
+    return 'hsl('+ HSL[0] + ',' + HSL[1] + ',' + HSL[2] + ')'
   }
 
 
