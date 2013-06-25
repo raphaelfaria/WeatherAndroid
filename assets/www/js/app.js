@@ -157,7 +157,6 @@ $(function(){
     conditionDiv.html(condition);
     minMaxDiv.html(tempConverter(minMax[0]) + 'º / ' + tempConverter(minMax[1]) + 'º')
     var HSL = getColour(temp, hum, sunrise, sunset, localtime);
-    // var hslString = 'hsl('+ HSL[0] + ',' + HSL[1] + ', 0.5)';
     wrapper.css('background-color', 'hsl('+ HSL[0] + ',' + HSL[1] + ',' + HSL[2] + ')');
   }
 
@@ -269,6 +268,8 @@ $(function(){
 
     if (time < mid2)
       HSL[2] = ((37.5 / (mid2 - mid1)) * (time - mid2) + 50) + '%';
+    else
+      HSL[2] = '50%';
 
     return HSL;
   }
