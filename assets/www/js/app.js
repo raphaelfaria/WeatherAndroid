@@ -200,7 +200,7 @@ $(function(){
     else if (conditionId == '602')
       return 'snow-heavy';
 
-    else if (conditionId == '701' || conditionId == '711' || conditionId == '731' || conditionId == '741' || conditionID == '751')
+    else if (conditionId == '701' || conditionId == '711' || conditionId == '731' || conditionId == '741' || conditionId == '751')
       return 'fog';
 
     else if (conditionId == '721')
