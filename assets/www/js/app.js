@@ -2,24 +2,23 @@ $(function(){
 
   //Get weather
 
-  var hourly = [];
-
-  $('.hourly li').each(function(){
-    hourly.push($(this));
-  });
+  windowHeight = $(window).height();
+  windowWidth = $(window).width();
 
   var forecastList = [];
+  var markersList = [];
 
   $('.forecast-list li').each(function(){
     forecastList.push($(this));
   });
-
-  windowHeight = $(window).height();
-  windowWidth = $(window).width();
+  
+  $('#markers li').each(function(){
+    markersList.push($(this));
+  });
 
   var geoLocal = false;
 
-  var cityName = 'Dublin,ie';
+  var cityName = 'Sao%20Paulo';
 
   var lang = 'en'
 
@@ -27,78 +26,10 @@ $(function(){
 
   var reloadTime = 30 //in minutes
 
-  var wrapper = $('#content-wrapper');
-  var contWrapper = $('#forecast-wrapper');
-  var location = $('.location');
-  var tempDiv = $('.temp');
-  var conditionDiv = $('.weather-condition');
-  var minMaxDiv = $('.min-max');
-  var weatherIcon = $('.weather-icon img');
-
   var menu = $('#menu');
+  var wrapper = $('#content-wrapper');
 
-  wrapper.hammer().on("touch", function(event) {
-    if (menu.hasClass('menu-active'))
-      toggleMenu()
-    // else
-    //   $('.hourly li').css('height', (windowHeight / 4) + 'px');
-  });
-  // wrapper.hammer().on("release", function(event) {
-  //   $('.hourly li').css('height', '30px');
-  // });
-  // $('#menu-button').hammer().on("touch", function(event) {
-  //   event.stopPropagation();
-  // });
-
-  $('#menu-button').hammer().on("touch", function(event) {
-    // menu.toggleClass('menu-active');
-    toggleMenu();
-  });
-
-  var liCur = 0;
-
-  var posHolder;
-  var posStart;
-
-  var dragThreshold = (windowWidth * 0.6)/16;
-
-
-  wrapper.hammer().on("dragstart", function(event) {
-
-    posStart = event.gesture.center.pageX;
-    posHolder = posStart;
-  });
-
-  wrapper.hammer({drag_min_distance: 1}).on("drag", function(event) {
-    console.log('start: ' + posHolder + ' pageX: ' + event.gesture.center.pageX + ' delta: ' + event.gesture.deltaX);
-
-    if (liCur == 15 && event.gesture.center.pageX > posHolder) {
-      posHolder = event.gesture.center.pageX;
-    }
-    if (liCur == 0 && event.gesture.center.pageX < posHolder) {
-      posHolder = event.gesture.center.pageX;
-    }
-    if (event.gesture.center.pageX >= posHolder + dragThreshold && liCur < 15) {
-      liCur++;
-      var bgc = hourly[liCur].css('background-color');
-      wrapper.css('background-color', bgc);
-      $('.forecast-list li').removeClass('show');
-      forecastList[liCur].addClass('show');
-      $('.hourly li').removeClass('active');
-      hourly[liCur].addClass('active');
-      posHolder = event.gesture.center.pageX;
-    }
-    else if (event.gesture.center.pageX <= posHolder - dragThreshold && liCur > 0) {
-      liCur--;
-      var bgc = hourly[liCur].css('background-color');
-      wrapper.css('background-color', bgc);
-      $('.forecast-list li').removeClass('show');
-      forecastList[liCur].addClass('show');
-      $('.hourly li').removeClass('active');
-      hourly[liCur].addClass('active');
-      posHolder = event.gesture.center.pageX;
-    }
-  });
+  var colours = [];
 
   if (geoLocal == true) {
      if (navigator.geolocation) {
@@ -116,18 +47,53 @@ $(function(){
      getWeatherInfo(weatherAPI, forecastAPI);
   }
 
-  wrapper.hammer().on("doubletap", function(event) {
-       getWeatherInfo(weatherAPI, forecastAPI);
-  });
 
-  function toggleMenu() {
-    menu.toggleClass('menu-active');
+  var indexCounter = 0;
 
-    if (menu.hasClass('menu-active'))
-      contWrapper.css('opacity', 0.4);
-    else
-      contWrapper.css('opacity', 1);
-  }
+
+  wrapper.hammer().on('swipeup', function(event) {
+    if (indexCounter < 15) {
+      indexCounter++;
+      wrapper.toggleClass('transition');
+      wrapper.css('background-position', '0 100%');
+      // wrapper.toggleClass('transition');
+      setTimeout(function() {
+        wrapper.toggleClass('transition');
+        wrapper.css('background-position', '0 0');
+        paintBg(colours, indexCounter);
+      }, 200);
+      changeInfo(indexCounter);
+      console.log(indexCounter);
+    }
+  })
+
+  wrapper.hammer().on('swipedown', function(event) {
+    if (indexCounter > 0) {
+      indexCounter--;
+      paintBg(colours, indexCounter);
+      wrapper.css('background-position', '0 100%');
+      // wrapper.toggleClass('transition');
+      // wrapper.toggleClass('transition');
+      setTimeout(function() {
+        // wrapper.toggleClass('transition');
+        wrapper.css('background-position', '0 0');
+      }, 200);
+      changeInfo(indexCounter);
+      console.log(indexCounter);
+    }
+  })
+
+  // wrapper.hammer().on('tap', function(event) {
+  //   ind++;
+  //   wrapper.toggleClass('transition');
+  //   wrapper.css('background-position', '0 100%');
+  //   // wrapper.toggleClass('transition');
+  //   setTimeout(function() {
+  //     wrapper.toggleClass('transition');
+  //     wrapper.css('background-position', '0 0');
+  //     paintBg(colours, ind);
+  //   }, 200);
+  // })
 
   function locationSuccess(position) {
     var crd = position.coords;
@@ -168,14 +134,12 @@ $(function(){
     var iconLocation = 'img/';
     var iconExt = '.png';
 
-    weatherIcon.attr("src", iconLocation + getIcon(conditionId) + iconExt);
-    location.html(city);
-    tempDiv.html(tempConverter(temp) + 'º');
-    conditionDiv.html(condition);
-    minMaxDiv.html(tempConverter(minMax[0]) + 'º / ' + tempConverter(minMax[1]) + 'º')
-    // var HSL = getColour(temp, hum, sunrise, sunset, localtime);
-    // var hslString = 'hsl('+ HSL[0] + ',' + HSL[1] + ', 0.5)';
-    wrapper.css('background-color', getColour(temp, hum, sunrise, sunset, localtime));
+    // wrapper.css('background-color', getColour(temp, hum, sunrise, sunset, localtime));
+
+    colours[0] = getColour(temp, hum, sunrise, sunset, localtime);
+
+    var markup = "<div class='time-location'><div class='time'>now</div><p class='location'>" + city + "</p></div><div class='weather-main'><div class='weather-icon'><img alt='' src='" + iconLocation + getIcon(conditionId) + iconExt + "' width='225px'></div><div class='temp'>" + tempConverter(temp) + 'º' + "</div></div><div class='weather-info'><p class='weather-condition'>" + condition + "</p><span class='min-max'>&nbsp;</span></div>"
+    forecastList[0].append(markup);
 
 
     $.getJSON(forecastAPI, function(response){
@@ -187,21 +151,27 @@ $(function(){
 
     var cacheForecast = $.parseJSON(localStorage.forecastCache);
 
-    var markup;
+    var forecastMilliseconds;
+    var date;
+    var hour;
 
-    for (var i = 0; i < 16; i++) {
-      if (i == 0) {
-        hourly[i].css('background-color', getColour(temp, hum, sunrise, sunset, localtime));
-        markup = "<div class='time-location'><div class='time'>now</div><p class='location'>" + city + "</p></div><div class='weather-main'><div class='weather-icon'><img alt='' src='" + iconLocation + getIcon(conditionId) + iconExt + "' width='225px'></div><div class='temp'>" + tempConverter(temp) + 'º' + "</div></div><div class='weather-info'><p class='weather-condition'>" + condition + "</p><span class='min-max'>&nbsp;</span></div>"
-        forecastList[i].append(markup);
-      }
-
-      else {
-        hourly[i].css('background-color', getColour(cacheForecast.data.list[i - 1].main.temp, cacheForecast.data.list[i - 1].main.humidity, sunrise, sunset, cacheForecast.data.list[i - 1].dt * 1000));
-        markup = "<div class='time-location'><div class='time'>now</div><p class='location'>" + city + "</p></div><div class='weather-main'><div class='weather-icon'><img alt='' src='" + iconLocation + getIcon(cacheForecast.data.list[i - 1].weather[0].id) + iconExt + "' width='225px'></div><div class='temp'>" + tempConverter(cacheForecast.data.list[i - 1].main.temp) + 'º' + "</div></div><div class='weather-info'><p class='weather-condition'>" + cacheForecast.data.list[i - 1].weather[0].description + "</p><span class='min-max'>&nbsp;</span></div>";
-        forecastList[i].append(markup);
-      }
-    }   
+    for (var i = 1; i < 16; i++) {
+      forecastMilliseconds = cacheForecast.data.list[i].dt * 1000 + offset;
+      date = new Date(forecastMilliseconds);
+      hour = date.getHours() + ':' + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
+      conditionId = cacheForecast.data.list[i].weather[0].id;
+      temp = cacheForecast.data.list[i].main.temp;
+      condition = cacheForecast.data.list[i].weather[0].description;
+      colours[i] = getColour(temp, hum, sunrise, sunset, localtime);
+      markup = "<div class='time-location'><div class='time'>"
+                + hour + "</div><p class='location'>"
+                + city + "</p></div><div class='weather-main'><div class='weather-icon'><img alt='' src='"
+                + iconLocation + getIcon(conditionId) + iconExt + "' width='225px'></div><div class='temp'>"
+                + tempConverter(temp) + 'º' + "</div></div><div class='weather-info'><p class='weather-condition'>"
+                + condition + "</p><span class='min-max'>&nbsp;</span></div>"
+      forecastList[i].append(markup);
+    }
+    paintBg(colours, 0);
   }
 
   function locationError(error){
@@ -329,6 +299,9 @@ $(function(){
     else
       lightness = (((75 / (mid2 - mid1)) * (curDay - mid2)) + 75);
 
+    if (lightness > 90)
+      lightness = 90;
+
     lightness /= 100;
 
     HSL[2] = (2 - S) * lightness;
@@ -342,16 +315,35 @@ $(function(){
     HSL[1] *= 100;
     HSL[2] *= 100;
 
-    // if (lightness > 50)
-    //   HSL[2] = '50%';
-    // else
-    //   HSL[2] = lightness + '%';
+    if (HSL[2] > 50)
+      HSL[2] = 50;
 
     // return HSL;
     return 'hsl('+ HSL[0] + ',' + HSL[1] + '% ,' + HSL[2] + '%)'
   }
 
+  function paintBg(colours, index) {
 
+    var hslColour;
 
+    if (index == 15) {
+      wrapper.css('background-color', colours[index]);
+    }
 
+    else {
+      hslColour = '-webkit-linear-gradient(top,' + colours[index] + ',' + colours[index + 1] + ' 50%,' + colours[index + 2] + ')'
+      // wrapper.css('background-color', 'none');
+      wrapper.css('background-image', '-webkit-' + hslColour);
+      wrapper.css('background-image', hslColour);
+      // wrapper.css('background-image', 'linear-gradient(top,' + colours[index] + ',' + colours[index + 1] + ')');
+      // wrapper.css('background-image', '-webkit-linear-gradient(top,' + colours[index] + ',' + colours[index + 1] + ')');
+    }
+  }
+
+  function changeInfo(index) {
+    $('.forecast-list li').removeClass('show');
+    forecastList[index].addClass('show');
+    $('#markers li').removeClass('show');
+    markersList[index].addClass('show');
+  }
 })

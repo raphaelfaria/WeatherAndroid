@@ -10,7 +10,12 @@ html, body {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  position: relative; }
+  position: relative;
+  background-size: 100% 200%;
+  background-position: 0 0; }
+  #content-wrapper.transition {
+    transition: all .2s ease-in-out;
+    -webkit-transition: all .2s ease-in-out; }
 
 #menu-button {
   position: absolute;
@@ -82,19 +87,19 @@ html, body {
       font-size: 45px;
       width: 50%; }
 
-footer {
+#markers {
   position: absolute;
-  width: 100%;
   bottom: 0;
-  overflow: hidden; }
-  footer .hourly li {
-    width: 6.25%;
-    height: 30px;
-    float: left;
-    padding-bottom: 8px;
-    -webkit-transition: height .1s;
-    -moz-transition: height .1s;
-    transition: height .1s; }
-    footer .hourly li.active {
-      padding-bottom: 0;
-      border-bottom: solid 8px white; }
+  left: 0;
+  margin: 10px; }
+  #markers li {
+    margin-top: 10px;
+    width: 8px;
+    height: 8px;
+    border-radius: 4px;
+    background-color: white;
+    transition: all .2;
+    -webkit-transition: all .2;
+    opacity: 0.3; }
+    #markers li.show {
+      opacity: 1; }

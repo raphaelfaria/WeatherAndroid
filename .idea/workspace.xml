@@ -3,15 +3,19 @@
   <component name="ChangeListManager">
     <list default="true" id="7e4fed7a-ec32-47b1-82b2-bbb4af047aaa" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/www/js/app.js" afterPath="$PROJECT_DIR$/assets/www/js/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/www/index.html" afterPath="$PROJECT_DIR$/assets/www/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/www/css/style.css" afterPath="$PROJECT_DIR$/assets/www/css/style.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/www/css/sass/style.css" afterPath="$PROJECT_DIR$/assets/www/css/sass/style.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/www/css/sass/style.scss" afterPath="$PROJECT_DIR$/assets/www/css/sass/style.scss" />
     </list>
     <ignored path="WeatherAndroid.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/Dummy.txt" changelist="7e4fed7a-ec32-47b1-82b2-bbb4af047aaa" time="1372198191018" ignored="false" />
     <file path="/fragment.java" changelist="7e4fed7a-ec32-47b1-82b2-bbb4af047aaa" time="1372084382919" ignored="false" />
     <file path="/.gitignore" changelist="7e4fed7a-ec32-47b1-82b2-bbb4af047aaa" time="1372086074274" ignored="false" />
-    <file path="/app.js" changelist="7e4fed7a-ec32-47b1-82b2-bbb4af047aaa" time="1372198610566" ignored="false" />
+    <file path="/app.js" changelist="7e4fed7a-ec32-47b1-82b2-bbb4af047aaa" time="1372278485133" ignored="false" />
     <file path="/jquery.hammer.min.js" changelist="7e4fed7a-ec32-47b1-82b2-bbb4af047aaa" time="1372098924688" ignored="false" />
+    <file path="$PROJECT_DIR$/.idea/workspace.xml" changelist="7e4fed7a-ec32-47b1-82b2-bbb4af047aaa" time="1372281011987" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,7 +88,7 @@
       <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/assets/www/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="91" column="11" selection-start="3518" selection-end="3518" vertical-scroll-proportion="0.0">
+            <state line="87" column="11" selection-start="3255" selection-end="3255" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -93,7 +97,7 @@
       <file leaf-file-name="app.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/assets/www/js/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="21" column="27" selection-start="352" selection-end="352" vertical-scroll-proportion="0.844504">
+            <state line="73" column="28" selection-start="1726" selection-end="1726" vertical-scroll-proportion="0.28150135">
               <folding />
             </state>
           </provider>
@@ -511,7 +515,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/assets/www/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="91" column="11" selection-start="3518" selection-end="3518" vertical-scroll-proportion="0.0">
+        <state line="87" column="11" selection-start="3255" selection-end="3255" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -540,7 +544,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/assets/www/js/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="27" selection-start="352" selection-end="352" vertical-scroll-proportion="0.844504">
+        <state line="73" column="28" selection-start="1726" selection-end="1726" vertical-scroll-proportion="0.28150135">
           <folding />
         </state>
       </provider>
