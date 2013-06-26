@@ -19,7 +19,7 @@ $(function(){
 
   var geoLocal = false;
 
-  var cityName = 'New%20York';
+  var cityName = 'Dublin,ie';
 
   var lang = 'en'
 
@@ -40,16 +40,15 @@ $(function(){
   wrapper.hammer().on("touch", function(event) {
     if (menu.hasClass('menu-active'))
       toggleMenu()
-      // menu.toggleClass('menu-active');
-    else
-      $('.hourly li').css('height', (windowHeight / 4) + 'px');
+    // else
+    //   $('.hourly li').css('height', (windowHeight / 4) + 'px');
   });
-  wrapper.hammer().on("release", function(event) {
-    $('.hourly li').css('height', '30px');
-  });
-  $('#menu-button').hammer().on("touch", function(event) {
-    event.stopPropagation();
-  });
+  // wrapper.hammer().on("release", function(event) {
+  //   $('.hourly li').css('height', '30px');
+  // });
+  // $('#menu-button').hammer().on("touch", function(event) {
+  //   event.stopPropagation();
+  // });
 
   $('#menu-button').hammer().on("touch", function(event) {
     // menu.toggleClass('menu-active');
@@ -295,7 +294,7 @@ $(function(){
 
     var threshold = riseSetDif / 2;
 
-    if (sunset + riseSetDif * 2 < time) {
+    while (sunset + riseSetDif * 2 < time) {
       sunset = sunset + riseSetDif * 2;
       sunset = sunset + riseSetDif * 2;
     }
@@ -309,6 +308,8 @@ $(function(){
 
     var lightness;
 
+    var S;
+
     var HSL = new Array();
 
     HSL[0] = 240 * (maxTemp - temp)/(maxTemp - minTemp);
@@ -318,22 +319,36 @@ $(function(){
     else if (HSL[0] > 240)
       HSL[0] = 240;
 
-    HSL[1] = 0.4 * (100 - hum) + 60 + '%';
+    S = 0.4 * (100 - hum) + 60;
+    S /= 100;
+
+    // HSL[1] = 0.4 * (100 - hum) + 60 + '%';
 
     if (curDay < mid2)
-      lightness = (((37.5 / (mid2 - mid1)) * (curDay - mid2)) + 50);
+      lightness = (((75 / (mid2 - mid1)) * (curDay - mid2)) + 75);
     else
-      lightness = (((37.5 / (mid2 - mid1)) * (curDay - mid2)) + 12.5);
+      lightness = (((75 / (mid2 - mid1)) * (curDay - mid2)) + 75);
 
+    lightness /= 100;
 
+    HSL[2] = (2 - S) * lightness;
 
-    if (lightness > 50)
-      HSL[2] = '50%';
-    else
-      HSL[2] = lightness + '%';
+    HSL[1] = S * lightness;
+
+    HSL[1] /= (HSL[2] <= 1) ? (HSL[2]) : 2 - (HSL[2]);
+
+    HSL[2] /= 2;
+
+    HSL[1] *= 100;
+    HSL[2] *= 100;
+
+    // if (lightness > 50)
+    //   HSL[2] = '50%';
+    // else
+    //   HSL[2] = lightness + '%';
 
     // return HSL;
-    return 'hsl('+ HSL[0] + ',' + HSL[1] + ',' + HSL[2] + ')'
+    return 'hsl('+ HSL[0] + ',' + HSL[1] + '% ,' + HSL[2] + '%)'
   }
 
 

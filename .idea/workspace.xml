@@ -3,18 +3,14 @@
   <component name="ChangeListManager">
     <list default="true" id="7e4fed7a-ec32-47b1-82b2-bbb4af047aaa" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/www/js/app.js" afterPath="$PROJECT_DIR$/assets/www/js/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/www/index.html" afterPath="$PROJECT_DIR$/assets/www/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/www/css/style.css" afterPath="$PROJECT_DIR$/assets/www/css/style.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/www/css/sass/style.css" afterPath="$PROJECT_DIR$/assets/www/css/sass/style.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/www/css/sass/style.scss" afterPath="$PROJECT_DIR$/assets/www/css/sass/style.scss" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="WeatherAndroid.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="7e4fed7a-ec32-47b1-82b2-bbb4af047aaa" time="1372177236335" ignored="false" />
+    <file path="/Dummy.txt" changelist="7e4fed7a-ec32-47b1-82b2-bbb4af047aaa" time="1372198191018" ignored="false" />
     <file path="/fragment.java" changelist="7e4fed7a-ec32-47b1-82b2-bbb4af047aaa" time="1372084382919" ignored="false" />
     <file path="/.gitignore" changelist="7e4fed7a-ec32-47b1-82b2-bbb4af047aaa" time="1372086074274" ignored="false" />
-    <file path="/app.js" changelist="7e4fed7a-ec32-47b1-82b2-bbb4af047aaa" time="1372197993262" ignored="false" />
+    <file path="/app.js" changelist="7e4fed7a-ec32-47b1-82b2-bbb4af047aaa" time="1372198610566" ignored="false" />
     <file path="/jquery.hammer.min.js" changelist="7e4fed7a-ec32-47b1-82b2-bbb4af047aaa" time="1372098924688" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -97,7 +93,7 @@
       <file leaf-file-name="app.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/assets/www/js/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="54" column="39" selection-start="1244" selection-end="1244" vertical-scroll-proportion="-1.1260054">
+            <state line="21" column="27" selection-start="352" selection-end="352" vertical-scroll-proportion="0.844504">
               <folding />
             </state>
           </provider>
@@ -342,6 +338,11 @@
       <created>1371953960354</created>
       <updated>1371953960354</updated>
     </task>
+    <task id="LOCAL-00001" summary="Fixing colours and onthers">
+      <created>1372198194772</created>
+      <updated>1372198194772</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -416,7 +417,7 @@
     <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixing colours and onthers" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -430,6 +431,7 @@
     <option name="UPDATE_FILTER_BY_SCOPE" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
+    <MESSAGE value="Fixing colours and onthers" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -538,7 +540,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/assets/www/js/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="54" column="39" selection-start="1244" selection-end="1244" vertical-scroll-proportion="-1.1260054">
+        <state line="21" column="27" selection-start="352" selection-end="352" vertical-scroll-proportion="0.844504">
           <folding />
         </state>
       </provider>
