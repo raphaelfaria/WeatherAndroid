@@ -49,15 +49,17 @@ html, body {
       display: block !important; }
   #forecast-wrapper .time-location {
     overflow: hidden;
-    font-size: 45px;
-    line-height: 50px; }
+    line-height: 50px;
+    display: block; }
     #forecast-wrapper .time-location .time {
       text-align: right;
-      float: left;
-      width: 40%;
-      margin-right: 10%; }
+      font-size: 35px;
+      display: inline-block;
+      width: 45%;
+      margin-right: 5%; }
     #forecast-wrapper .time-location .location {
-      float: left;
+      display: inline-block;
+      font-size: 45px;
       width: 50%; }
   #forecast-wrapper .weather-main {
     overflow: hidden; }
@@ -80,8 +82,8 @@ html, body {
       text-align: right;
       float: left;
       font-size: 45px;
-      width: 40%;
-      margin-right: 10%; }
+      width: 45%;
+      margin-right: 5%; }
     #forecast-wrapper .weather-info .min-max {
       float: left;
       font-size: 45px;

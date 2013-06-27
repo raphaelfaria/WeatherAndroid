@@ -81,18 +81,22 @@ html, body {
   .time-location {
 
     overflow: hidden;
-    font-size: 45px;
     line-height: 50px;
+    display: block;
 
     .time {
       text-align: right;
-      float: left;
-      width: 40%;
-      margin-right: 10%;
+      font-size: 35px;
+      display: inline-block;
+      // float: left;
+      width: 45%;
+      margin-right: 5%;
     }
 
     .location {
-      float: left;
+      // float: left;
+      display: inline-block;
+      font-size: 45px;
       width: 50%;
     }
   }
@@ -123,8 +127,8 @@ html, body {
       text-align: right;
       float: left;
       font-size: 45px;
-      width: 40%;
-      margin-right: 10%;
+      width: 45%;
+      margin-right: 5%;
     }
     .min-max {
       float: left;

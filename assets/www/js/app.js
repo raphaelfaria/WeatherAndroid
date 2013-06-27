@@ -18,13 +18,13 @@ $(function(){
 
   var geoLocal = false;
 
-  var cityName = 'Sao%20Paulo';
+  var cityName = 'Dublin,ie';
 
   var lang = 'en'
 
   var DEG = 'c';
 
-  var reloadTime = 30 //in minutes
+  var reloadTime = 30; //in minutes
 
   var menu = $('#menu');
   var wrapper = $('#content-wrapper');
@@ -83,18 +83,6 @@ $(function(){
     }
   })
 
-  // wrapper.hammer().on('tap', function(event) {
-  //   ind++;
-  //   wrapper.toggleClass('transition');
-  //   wrapper.css('background-position', '0 100%');
-  //   // wrapper.toggleClass('transition');
-  //   setTimeout(function() {
-  //     wrapper.toggleClass('transition');
-  //     wrapper.css('background-position', '0 0');
-  //     paintBg(colours, ind);
-  //   }, 200);
-  // })
-
   function locationSuccess(position) {
     var crd = position.coords;
 
@@ -119,10 +107,12 @@ $(function(){
     var d = new Date();
 
     var offset = d.getTimezoneOffset()*60*1000;
-    var localtime = d.getTime() + offset;
+    var localtime = d.getTime();
 
-    var sunrise = cache.data.sys.sunrise * 1000 + offset;
-    var sunset = cache.data.sys.sunset * 1000 + offset;
+    console.log(localtime);
+
+    var sunrise = cache.data.sys.sunrise * 1000;
+    var sunset = cache.data.sys.sunset * 1000;
     var city = cache.data.name;
     var temp = cache.data.main.temp;
     var hum = cache.data.main.humidity;
@@ -154,17 +144,21 @@ $(function(){
     var forecastMilliseconds;
     var date;
     var hour;
+    var day;
+    var forecatTime;
 
     for (var i = 1; i < 16; i++) {
       forecastMilliseconds = cacheForecast.data.list[i].dt * 1000 + offset;
+      forecatTime = cacheForecast.data.list[i].dt * 1000;
       date = new Date(forecastMilliseconds);
       hour = date.getHours() + ':' + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
       conditionId = cacheForecast.data.list[i].weather[0].id;
       temp = cacheForecast.data.list[i].main.temp;
       condition = cacheForecast.data.list[i].weather[0].description;
-      colours[i] = getColour(temp, hum, sunrise, sunset, localtime);
+      colours[i] = getColour(temp, hum, sunrise, sunset, forecatTime);
+      day = getDayName(new Date(cacheForecast.data.list[i].dt * 1000).getDay());
       markup = "<div class='time-location'><div class='time'>"
-                + hour + "</div><p class='location'>"
+                + day + ' ' + hour + "</div><p class='location'>"
                 + city + "</p></div><div class='weather-main'><div class='weather-icon'><img alt='' src='"
                 + iconLocation + getIcon(conditionId) + iconExt + "' width='225px'></div><div class='temp'>"
                 + tempConverter(temp) + 'º' + "</div></div><div class='weather-info'><p class='weather-condition'>"
@@ -255,6 +249,12 @@ $(function(){
       return Math.round(DEG == 'c' ? (temperature - 273.15) : (temperature*9/5 - 459.67));
   }
 
+  function getDayName(day) {
+    days = ['sat', 'sun', 'mon', 'tue', 'wed', 'thu', 'fri'];
+
+    return days[day];
+  }
+
 
   function getColour(temp, hum, sunrise, sunset, time) {
 
@@ -264,21 +264,24 @@ $(function(){
 
     var threshold = riseSetDif / 2;
 
-    while (sunset + riseSetDif * 2 < time) {
-      sunset = sunset + riseSetDif * 2;
-      sunset = sunset + riseSetDif * 2;
-    }
+    var dayms = 24 * 60 * 60 * 1000;
 
-    var mid1 = sunrise - threshold;
-    var mid2 = sunrise + threshold;
+    var setRiseDif = dayms - riseSetDif;
+
+    // while (sunset + riseSetDif * 2 < time) {
+    //   sunset = sunset + riseSetDif * 2;
+    //   sunset = sunset + riseSetDif * 2;
+    // }
+
+    var mid;
+    var vertex;
 
     var kelvin = 273.15;
     var minTemp = -10 + kelvin;
     var maxTemp = 30 + kelvin;
 
-    var lightness;
-
     var S;
+    var V;
 
     var HSL = new Array();
 
@@ -292,21 +295,41 @@ $(function(){
     S = 0.4 * (100 - hum) + 60;
     S /= 100;
 
-    // HSL[1] = 0.4 * (100 - hum) + 60 + '%';
+    vertex = 70;
+    mid = sunrise + riseSetDif/2;
 
-    if (curDay < mid2)
-      lightness = (((75 / (mid2 - mid1)) * (curDay - mid2)) + 75);
-    else
-      lightness = (((75 / (mid2 - mid1)) * (curDay - mid2)) + 75);
+    while ((time < sunrise && time < sunset) || (time > sunrise && time > sunset)) {    
+      if (time < sunrise && time < sunset) {
+        sunset -= dayms;
+        mid = sunset + setRiseDif/2;
+        vertex = 12.5;
+      }
+      else if (time > sunrise && time > sunset) {
+        sunrise += dayms;
+        mid = sunset + setRiseDif/2;
+        vertex = 12.5;
+      }
+      // else {
+      //   vertex = 90;
+      //   mid = sunrise + riseSetDif/2;
+      // }
+    }
 
-    if (lightness > 90)
-      lightness = 90;
+    // f(x)=a(x-h)2+k,  vertex (h,k)
 
-    lightness /= 100;
+    var a;
+    var y = 50;
 
-    HSL[2] = (2 - S) * lightness;
+    a = (y - vertex)/((sunrise - mid) * (sunrise - mid));
 
-    HSL[1] = S * lightness;
+    V = a * ((time - mid) * (time - mid)) + vertex;
+
+    V /= 100;
+
+
+    HSL[2] = (2 - S) * V;
+
+    HSL[1] = S * V;
 
     HSL[1] /= (HSL[2] <= 1) ? (HSL[2]) : 2 - (HSL[2]);
 
@@ -315,8 +338,8 @@ $(function(){
     HSL[1] *= 100;
     HSL[2] *= 100;
 
-    if (HSL[2] > 50)
-      HSL[2] = 50;
+    // if (HSL[2] > 50)
+    //   HSL[2] = 50;
 
     // return HSL;
     return 'hsl('+ HSL[0] + ',' + HSL[1] + '% ,' + HSL[2] + '%)'
