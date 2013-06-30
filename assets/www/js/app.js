@@ -31,6 +31,54 @@ $(function(){
 
   var colours = [];
 
+
+
+  var liCur = 0;
+
+  var posHolder;
+  var posStart;
+
+  var dragThreshold = (windowHeight * 0.6)/16;
+
+  wrapper.hammer().on("dragstart", function(event) {
+    posStart = event.gesture.center.pageY;
+    posHolder = posStart;
+  });
+
+  wrapper.hammer({drag_min_distance: 1}).on("drag", function(event) {
+    console.log('start: ' + posHolder + ' pageY: ' + event.gesture.center.pageY + ' delta: ' + event.gesture.deltaY);
+
+    if (liCur == 15 && event.gesture.center.pageY > posHolder) {
+      posHolder = event.gesture.center.pageY;
+    }
+    if (liCur == 0 && event.gesture.center.pageY < posHolder) {
+      posHolder = event.gesture.center.pageY;
+    }
+    if (event.gesture.center.pageY >= posHolder + dragThreshold && liCur < 15) {
+      liCur++;
+      wrapper.css('background-color', colours[liCur]);
+      $('.forecast-list li').removeClass('show');
+      forecastList[liCur].addClass('show');
+      $('#markers li').removeClass('show');
+      markersList[liCur].addClass('show');
+      posHolder = event.gesture.center.pageY;
+    }
+    else if (event.gesture.center.pageY <= posHolder - dragThreshold && liCur > 0) {
+      liCur--;
+      wrapper.css('background-color', colours[liCur]);
+      $('.forecast-list li').removeClass('show');
+      forecastList[liCur].addClass('show');
+      $('#markers li').removeClass('show');
+      markersList[liCur].addClass('show');
+      posHolder = event.gesture.center.pageY;
+    }
+  });
+
+
+
+
+
+
   if (geoLocal == true) {
      if (navigator.geolocation) {
          navigator.geolocation.getCurrentPosition(locationSuccess, locationError);
@@ -47,45 +95,28 @@ $(function(){
      getWeatherInfo(weatherAPI, forecastAPI);
   }
 
+  // var menu = $('#menu');
 
-  var indexCounter = 0;
+  // wrapper.hammer().on("touch", function(event) {
+  //   if (menu.hasClass('menu-active'))
+  //     toggleMenu();
+  // });
 
+  // $('#menu-button').hammer().on("touch", function(event) {
+  //   toggleMenu();
+  // });
 
-  wrapper.hammer().on('swipeup', function(event) {
-    if (indexCounter < 15) {
-      indexCounter++;
-      // wrapper.toggleClass('transition');
-      wrapper.css('background-position', '0 -' + (indexCounter * 100) + '%');
-
-      // wrapper.toggleClass('transition');
-      // setTimeout(function() {
-      //   wrapper.toggleClass('transition');
-      //   wrapper.css('background-position', '0 0');
-      //   paintBg(colours, indexCounter);
-      // }, 200);
-      changeInfo(indexCounter);
-      // console.log(indexCounter);
-    }
-  })
-
-  wrapper.hammer().on('swipedown', function(event) {
-    if (indexCounter > 0) {
-      indexCounter--;
-      wrapper.css('background-position', '0 -' + (indexCounter * 100) + '%');
-      changeInfo(indexCounter);
-    }
-  })
 
   // var curBgPos = 0;
 
-  // wrapper.hammer({drag_min_distance: 1}).on('drag', function(event) {
+  // wrapper.hammer({
+  //   drag_min_distance : 10, 
+  //   correct_for_drag_min_distance : true,
+  //   drag_max_touches  : 1,
+  //   drag_lock_to_axis : false,
+  //   drag_lock_min_distance  : 25}).on('drag', function(event) {
   //   console.log(curBgPos);
 
-  //   if (curBgPos < 0) {
-  //     curBgPos = 0; 
-  //   }
-  //   curBgPos += Math.round((-event.gesture.deltaY) / (windowHeight/10));
-  //   wrapper.css('background-position', '0 ' + curBgPos + '%');
   // })
 
   function locationSuccess(position) {
@@ -174,7 +205,7 @@ $(function(){
                 + condition + "</p><span class='min-max'>&nbsp;</span></div>"
       forecastList[i - j + 1].append(markup);
     }
-    paintBg(colours, 0);
+    paintBg(colours,0);
   }
 
   function locationError(error){
@@ -192,11 +223,10 @@ $(function(){
               showError('An unknown error occured!');
               break;
       }
-
   }
 
-  function getIcon(conditionId) {
-    if (conditionId == '200' || conditionId == '201' || conditionId == '202' || conditionId == '210' || conditionId == '211' || conditionId == '212' || conditionId == '221' || conditionId == '230' || conditionId == '231' || conditionId == '232')
+  function getIcon(conditionId) {    
+    if (conditionId == '200' || conditionId == '201' || conditionId == '202' || conditionId == '210' || conditionId == '211' || conditionId == '212' || conditionId == '221' || conditionId == '230' || conditionId == '231' || conditionId == '232') 
       return 'thunderstorm';
 
     else if (conditionId == '300' || conditionId == '301' || conditionId == '302' || conditionId == '310')
@@ -260,7 +290,6 @@ $(function(){
 
   function getDayName(day) {
     days = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
-
     return days[day];
   }
 
@@ -303,9 +332,6 @@ $(function(){
 
     S = 0.4 * (100 - hum) + 60;
 
-
-    // S /= 100;
-
     HSL[1] = S;
 
     vertex = 50;
@@ -333,8 +359,6 @@ $(function(){
       vertex = 8;
     else
       vertex = 50;
-
-    // f(x)=a(x-h)2+k,  vertex (h,k)
 
     var a;
     var y = 17;
@@ -367,36 +391,22 @@ $(function(){
 
   function paintBg(colours, index) {
 
-    var hslColour = 'linear-gradient(top';
-    var div = 6.25;
+    // var hslColour = 'linear-gradient(top';
+    // var div = 6.25;
 
-    for (var count = 0; count < 16; count++){
-      hslColour += ',' + colours[count] + ' ' + (count * div) + '%';
-    }
+    // for (var count = 0; count < 16; count++){
+    //   hslColour += ',' + colours[count] + ' ' + (count * div) + '%';
+    // }
 
-    hslColour += ')'
+    // hslColour += ')'
 
-    wrapper.css('background-image', '-webkit-' + hslColour);
-    wrapper.css('background-image', '-moz-' + hslColour);
-    wrapper.css('background-image', hslColour);
+    // wrapper.css('background-image', '-webkit-' + hslColour);
+    // wrapper.css('background-image', '-moz-' + hslColour);
+    // wrapper.css('background-image', hslColour);
 
     // console.log(index);
 
-    // if (index == 15) {
-    //   wrapper.css('background-color', colours[index]);
-    // }
-
-    // else if (index == 14) {
-    //   hslColour = '-webkit-linear-gradient(top,' + colours[index] + ',' + colours[index + 1] + ' 50%,' + colours[index + 1] + ')';
-    //   wrapper.css('background-image', '-webkit-' + hslColour);
-    //   wrapper.css('background-image', hslColour);
-    // }
-
-    // else {
-    //   hslColour = '-webkit-linear-gradient(top,' + colours[index] + ',' + colours[index + 1] + ' 50%,' + colours[index + 2] + ')';
-    //   wrapper.css('background-image', '-webkit-' + hslColour);
-    //   wrapper.css('background-image', hslColour);
-    // }
+    wrapper.css('background-color',colours[index]);
   }
 
   function changeInfo(index) {
