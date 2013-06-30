@@ -18,7 +18,7 @@ $(function(){
 
   var geoLocal = false;
 
-  var cityName = 'Dublin,ie';
+  var cityName = 'Madrid';
 
   var lang = 'en'
 
@@ -54,34 +54,39 @@ $(function(){
   wrapper.hammer().on('swipeup', function(event) {
     if (indexCounter < 15) {
       indexCounter++;
-      wrapper.toggleClass('transition');
-      wrapper.css('background-position', '0 100%');
       // wrapper.toggleClass('transition');
-      setTimeout(function() {
-        wrapper.toggleClass('transition');
-        wrapper.css('background-position', '0 0');
-        paintBg(colours, indexCounter);
-      }, 200);
+      wrapper.css('background-position', '0 -' + (indexCounter * 100) + '%');
+
+      // wrapper.toggleClass('transition');
+      // setTimeout(function() {
+      //   wrapper.toggleClass('transition');
+      //   wrapper.css('background-position', '0 0');
+      //   paintBg(colours, indexCounter);
+      // }, 200);
       changeInfo(indexCounter);
-      console.log(indexCounter);
+      // console.log(indexCounter);
     }
   })
 
   wrapper.hammer().on('swipedown', function(event) {
     if (indexCounter > 0) {
       indexCounter--;
-      paintBg(colours, indexCounter);
-      wrapper.css('background-position', '0 100%');
-      // wrapper.toggleClass('transition');
-      // wrapper.toggleClass('transition');
-      setTimeout(function() {
-        // wrapper.toggleClass('transition');
-        wrapper.css('background-position', '0 0');
-      }, 200);
+      wrapper.css('background-position', '0 -' + (indexCounter * 100) + '%');
       changeInfo(indexCounter);
-      console.log(indexCounter);
     }
   })
+
+  // var curBgPos = 0;
+
+  // wrapper.hammer({drag_min_distance: 1}).on('drag', function(event) {
+  //   console.log(curBgPos);
+
+  //   if (curBgPos < 0) {
+  //     curBgPos = 0; 
+  //   }
+  //   curBgPos += Math.round((-event.gesture.deltaY) / (windowHeight/10));
+  //   wrapper.css('background-position', '0 ' + curBgPos + '%');
+  // })
 
   function locationSuccess(position) {
     var crd = position.coords;
@@ -106,7 +111,7 @@ $(function(){
 
     var d = new Date();
 
-    var offset = d.getTimezoneOffset()*60*1000;
+    var offset = d.getTimezoneOffset();
     var localtime = d.getTime();
 
     console.log(localtime);
@@ -145,18 +150,22 @@ $(function(){
     var date;
     var hour;
     var day;
-    var forecatTime;
+    var forecastTime;
 
-    for (var i = 1; i < 16; i++) {
-      forecastMilliseconds = cacheForecast.data.list[i].dt * 1000 + offset;
-      forecatTime = cacheForecast.data.list[i].dt * 1000;
-      date = new Date(forecastMilliseconds);
+    var j = 0;
+    while (localtime > ((cacheForecast.data.list[j].dt * 1000) - offset))
+      j++;
+
+    for (var i = j; i < j + 15; i++) {
+      // forecastMilliseconds = cacheForecast.data.list[i].dt * 1000 - offset;
+      forecastTime = cacheForecast.data.list[i].dt * 1000 - offset;
+      date = new Date(forecastTime);
       hour = date.getHours() + ':' + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
       conditionId = cacheForecast.data.list[i].weather[0].id;
       temp = cacheForecast.data.list[i].main.temp;
       condition = cacheForecast.data.list[i].weather[0].description;
-      colours[i] = getColour(temp, hum, sunrise, sunset, forecatTime);
-      day = getDayName(new Date(cacheForecast.data.list[i].dt * 1000).getDay());
+      colours[i - j + 1] = getColour(temp, hum, sunrise, sunset, forecastTime);
+      day = getDayName(new Date(forecastTime).getDay());
       markup = "<div class='time-location'><div class='time'>"
                 + day + ' ' + hour + "</div><p class='location'>"
                 + city + "</p></div><div class='weather-main'><div class='weather-icon'><img alt='' src='"
@@ -293,50 +302,61 @@ $(function(){
       HSL[0] = 240;
 
     S = 0.4 * (100 - hum) + 60;
-    S /= 100;
 
-    vertex = 70;
+
+    // S /= 100;
+
+    HSL[1] = S;
+
+    vertex = 50;
     mid = sunrise + riseSetDif/2;
 
     while ((time < sunrise && time < sunset) || (time > sunrise && time > sunset)) {    
-      if (time < sunrise && time < sunset) {
+      if (sunrise > sunset) {
+        sunset += dayms;
+        mid = sunrise + riseSetDif/2;
+      }
+
+      else if (time < sunrise && time < sunset) {
         sunset -= dayms;
         mid = sunset + setRiseDif/2;
-        vertex = 12.5;
+        vertex = 8;
       }
       else if (time > sunrise && time > sunset) {
         sunrise += dayms;
         mid = sunset + setRiseDif/2;
-        vertex = 12.5;
+        vertex = 8;
       }
-      // else {
-      //   vertex = 90;
-      //   mid = sunrise + riseSetDif/2;
-      // }
     }
+
+    if ((time < sunrise && time > sunset)) 
+      vertex = 8;
+    else
+      vertex = 50;
 
     // f(x)=a(x-h)2+k,  vertex (h,k)
 
     var a;
-    var y = 50;
+    var y = 17;
 
     a = (y - vertex)/((sunrise - mid) * (sunrise - mid));
 
     V = a * ((time - mid) * (time - mid)) + vertex;
 
-    V /= 100;
+    // V /= 100;
 
 
-    HSL[2] = (2 - S) * V;
+    // HSL[2] = (2 - S) * V;
+    HSL[2] = V;
 
-    HSL[1] = S * V;
+    // HSL[1] = S * V;
 
-    HSL[1] /= (HSL[2] <= 1) ? (HSL[2]) : 2 - (HSL[2]);
+    // HSL[1] /= (HSL[2] <= 1) ? (HSL[2]) : 2 - (HSL[2]);
 
-    HSL[2] /= 2;
+    // HSL[2] /= 2;
 
-    HSL[1] *= 100;
-    HSL[2] *= 100;
+    // HSL[1] *= 100;
+    // HSL[2] *= 100;
 
     // if (HSL[2] > 50)
     //   HSL[2] = 50;
@@ -347,20 +367,36 @@ $(function(){
 
   function paintBg(colours, index) {
 
-    var hslColour;
+    var hslColour = 'linear-gradient(top';
+    var div = 6.25;
 
-    if (index == 15) {
-      wrapper.css('background-color', colours[index]);
+    for (var count = 0; count < 16; count++){
+      hslColour += ',' + colours[count] + ' ' + (count * div) + '%';
     }
 
-    else {
-      hslColour = '-webkit-linear-gradient(top,' + colours[index] + ',' + colours[index + 1] + ' 50%,' + colours[index + 2] + ')'
-      // wrapper.css('background-color', 'none');
-      wrapper.css('background-image', '-webkit-' + hslColour);
-      wrapper.css('background-image', hslColour);
-      // wrapper.css('background-image', 'linear-gradient(top,' + colours[index] + ',' + colours[index + 1] + ')');
-      // wrapper.css('background-image', '-webkit-linear-gradient(top,' + colours[index] + ',' + colours[index + 1] + ')');
-    }
+    hslColour += ')'
+
+    wrapper.css('background-image', '-webkit-' + hslColour);
+    wrapper.css('background-image', '-moz-' + hslColour);
+    wrapper.css('background-image', hslColour);
+
+    // console.log(index);
+
+    // if (index == 15) {
+    //   wrapper.css('background-color', colours[index]);
+    // }
+
+    // else if (index == 14) {
+    //   hslColour = '-webkit-linear-gradient(top,' + colours[index] + ',' + colours[index + 1] + ' 50%,' + colours[index + 1] + ')';
+    //   wrapper.css('background-image', '-webkit-' + hslColour);
+    //   wrapper.css('background-image', hslColour);
+    // }
+
+    // else {
+    //   hslColour = '-webkit-linear-gradient(top,' + colours[index] + ',' + colours[index + 1] + ' 50%,' + colours[index + 2] + ')';
+    //   wrapper.css('background-image', '-webkit-' + hslColour);
+    //   wrapper.css('background-image', hslColour);
+    // }
   }
 
   function changeInfo(index) {

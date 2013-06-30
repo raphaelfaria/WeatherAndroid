@@ -11,11 +11,11 @@ html, body {
   height: 100%;
   overflow: hidden;
   position: relative;
-  background-size: 100% 200%;
+  background-size: 100% 1600%;
   background-position: 0 0; }
   #content-wrapper.transition {
-    transition: all .2s ease-in-out;
-    -webkit-transition: all .2s ease-in-out; }
+    transition: background-position .2s;
+    -webkit-transition: background-position .2s; }
 
 #menu-button {
   position: absolute;
