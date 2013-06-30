@@ -28,10 +28,9 @@ $(function(){
 
   var menu = $('#menu');
   var wrapper = $('#content-wrapper');
+  var contWrapper = $('#forecast-wrapper');
 
   var colours = [];
-
-
 
   var liCur = 0;
 
@@ -74,11 +73,6 @@ $(function(){
     }
   });
 
-
-
-
-
-
   if (geoLocal == true) {
      if (navigator.geolocation) {
          navigator.geolocation.getCurrentPosition(locationSuccess, locationError);
@@ -95,29 +89,16 @@ $(function(){
      getWeatherInfo(weatherAPI, forecastAPI);
   }
 
-  // var menu = $('#menu');
+  var menu = $('#menu');
 
-  // wrapper.hammer().on("touch", function(event) {
-  //   if (menu.hasClass('menu-active'))
-  //     toggleMenu();
-  // });
+  wrapper.hammer().on("touch", function(event) {
+    if (menu.hasClass('menu-active'))
+      toggleMenu();
+  });
 
-  // $('#menu-button').hammer().on("touch", function(event) {
-  //   toggleMenu();
-  // });
-
-
-  // var curBgPos = 0;
-
-  // wrapper.hammer({
-  //   drag_min_distance : 10, 
-  //   correct_for_drag_min_distance : true,
-  //   drag_max_touches  : 1,
-  //   drag_lock_to_axis : false,
-  //   drag_lock_min_distance  : 25}).on('drag', function(event) {
-  //   console.log(curBgPos);
-
-  // })
+  $('#menu-button').hammer().on("touch", function(event) {
+    toggleMenu();
+  });
 
   function locationSuccess(position) {
     var crd = position.coords;
@@ -159,8 +140,6 @@ $(function(){
 
     var iconLocation = 'img/';
     var iconExt = '.png';
-
-    // wrapper.css('background-color', getColour(temp, hum, sunrise, sunset, localtime));
 
     colours[0] = getColour(temp, hum, sunrise, sunset, localtime);
 
@@ -293,7 +272,6 @@ $(function(){
     return days[day];
   }
 
-
   function getColour(temp, hum, sunrise, sunset, time) {
 
     var curDay = time;
@@ -305,11 +283,6 @@ $(function(){
     var dayms = 24 * 60 * 60 * 1000;
 
     var setRiseDif = dayms - riseSetDif;
-
-    // while (sunset + riseSetDif * 2 < time) {
-    //   sunset = sunset + riseSetDif * 2;
-    //   sunset = sunset + riseSetDif * 2;
-    // }
 
     var mid;
     var vertex;
@@ -367,45 +340,12 @@ $(function(){
 
     V = a * ((time - mid) * (time - mid)) + vertex;
 
-    // V /= 100;
-
-
-    // HSL[2] = (2 - S) * V;
     HSL[2] = V;
 
-    // HSL[1] = S * V;
-
-    // HSL[1] /= (HSL[2] <= 1) ? (HSL[2]) : 2 - (HSL[2]);
-
-    // HSL[2] /= 2;
-
-    // HSL[1] *= 100;
-    // HSL[2] *= 100;
-
-    // if (HSL[2] > 50)
-    //   HSL[2] = 50;
-
-    // return HSL;
     return 'hsl('+ HSL[0] + ',' + HSL[1] + '% ,' + HSL[2] + '%)'
   }
 
   function paintBg(colours, index) {
-
-    // var hslColour = 'linear-gradient(top';
-    // var div = 6.25;
-
-    // for (var count = 0; count < 16; count++){
-    //   hslColour += ',' + colours[count] + ' ' + (count * div) + '%';
-    // }
-
-    // hslColour += ')'
-
-    // wrapper.css('background-image', '-webkit-' + hslColour);
-    // wrapper.css('background-image', '-moz-' + hslColour);
-    // wrapper.css('background-image', hslColour);
-
-    // console.log(index);
-
     wrapper.css('background-color',colours[index]);
   }
 
@@ -414,5 +354,14 @@ $(function(){
     forecastList[index].addClass('show');
     $('#markers li').removeClass('show');
     markersList[index].addClass('show');
+  }
+
+  function toggleMenu(){
+    menu.toggleClass('menu-active');
+
+    if (menu.hasClass('menu-active'))
+      contWrapper.css('opacity', 0.4);
+    else
+      contWrapper.css('opacity', 1);
   }
 })
