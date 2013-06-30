@@ -172,7 +172,7 @@ $(function(){
                 + iconLocation + getIcon(conditionId) + iconExt + "' width='225px'></div><div class='temp'>"
                 + tempConverter(temp) + 'º' + "</div></div><div class='weather-info'><p class='weather-condition'>"
                 + condition + "</p><span class='min-max'>&nbsp;</span></div>"
-      forecastList[i].append(markup);
+      forecastList[i - j + 1].append(markup);
     }
     paintBg(colours, 0);
   }
@@ -259,7 +259,7 @@ $(function(){
   }
 
   function getDayName(day) {
-    days = ['sat', 'sun', 'mon', 'tue', 'wed', 'thu', 'fri'];
+    days = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
 
     return days[day];
   }
