@@ -11,7 +11,7 @@ $(function(){
   $('.forecast-list li').each(function(){
     forecastList.push($(this));
   });
-  
+
   $('#markers li').each(function(){
     markersList.push($(this));
   });
@@ -204,8 +204,8 @@ $(function(){
       }
   }
 
-  function getIcon(conditionId) {    
-    if (conditionId == '200' || conditionId == '201' || conditionId == '202' || conditionId == '210' || conditionId == '211' || conditionId == '212' || conditionId == '221' || conditionId == '230' || conditionId == '231' || conditionId == '232') 
+  function getIcon(conditionId) {
+    if (conditionId == '200' || conditionId == '201' || conditionId == '202' || conditionId == '210' || conditionId == '211' || conditionId == '212' || conditionId == '221' || conditionId == '230' || conditionId == '231' || conditionId == '232')
       return 'thunderstorm';
 
     else if (conditionId == '300' || conditionId == '301' || conditionId == '302' || conditionId == '310')
@@ -303,14 +303,14 @@ $(function(){
     else if (HSL[0] > 240)
       HSL[0] = 240;
 
-    S = 0.4 * (100 - hum) + 60;
+    S = 0.4 * (100 - hum) + 75;
 
     HSL[1] = S;
 
     vertex = 50;
     mid = sunrise + riseSetDif/2;
 
-    while ((time < sunrise && time < sunset) || (time > sunrise && time > sunset)) {    
+    while ((time < sunrise && time < sunset) || (time > sunrise && time > sunset)) {
       if (sunrise > sunset) {
         sunset += dayms;
         mid = sunrise + riseSetDif/2;
@@ -319,17 +319,17 @@ $(function(){
       else if (time < sunrise && time < sunset) {
         sunset -= dayms;
         mid = sunset + setRiseDif/2;
-        vertex = 8;
+        vertex = 12;
       }
       else if (time > sunrise && time > sunset) {
         sunrise += dayms;
         mid = sunset + setRiseDif/2;
-        vertex = 8;
+        vertex = 12;
       }
     }
 
-    if ((time < sunrise && time > sunset)) 
-      vertex = 8;
+    if ((time < sunrise && time > sunset))
+      vertex = 12;
     else
       vertex = 50;
 
