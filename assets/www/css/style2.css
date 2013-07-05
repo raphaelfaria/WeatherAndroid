@@ -1,65 +1,46 @@
 @font-face {
   font-family: 'roboto';
-  src: url("/fonts/roboto-light-webfont.eot");
+  src: url("../fonts/roboto-light-webfont.eot");
+  src: url("../fonts/roboto-light-webfont.woff") format("woff");
   font-weight: 300;
   font-style: 300; }
 
 @font-face {
   font-family: 'roboto';
-  src: url("/fonts/roboto-regular-webfont.eot");
+  src: url("../fonts/roboto-regular-webfont.eot");
+  src: url("../fonts/roboto-regular-webfont.woff") format("woff");
   font-weight: 400;
   font-style: 400; }
 
 @font-face {
   font-family: 'roboto';
-  src: url("/fonts/roboto-thin-webfont.eot");
+  src: url("../fonts/roboto-thin-webfont.eot");
+  src: url("../fonts/roboto-thin-webfont.woff") format("woff");
   font-weight: 100;
   font-style: 100; }
 
 body {
-  background-color: #f7f7f7; }
+  background-color: #f7f7f7;
+  font-family: 'roboto';
+  font-weight: 100; }
 
 #content-wrapper {
   width: 500px;
   height: 500px;
-  margin: 20px auto;
+  margin: 0 auto;
   position: relative;
-  border-radius: 250px;
-  background-color: #d9d9d9;
-  overflow: hidden;
-  -webkit-transition: all .2s;
-  transition: all .2s; }
-
-.marker-wrapper {
-  width: 510px;
-  height: 510px;
-  position: absolute;
-  top: -5px;
-  left: -5px;
-  text-align: center;
-  -webkit-transform: rotate(20deg);
-  transform: rotate(20deg); }
-  .marker-wrapper .marker {
-    width: 30px;
-    height: 30px;
-    border-radius: 15px;
-    display: inline-block;
-    z-index: 100000000000;
-    background-color: red; }
+  overflow: hidden; }
 
 #forecast-wrapper {
-  width: 460px;
-  height: 460px;
-  border-radius: 230px;
-  position: relative;
-  background-color: #f7f7f7;
-  margin: 20px;
+  width: 500px;
+  height: 500px;
+  position: absolute;
+  top: 0;
+  left: 0;
   text-align: center; }
   #forecast-wrapper .temp {
     font-size: 160px;
-    font-family: 'roboto';
-    font-weight: 100;
-    line-height: 460px;
+    line-height: 500px;
     position: relative; }
     #forecast-wrapper .temp .tempsymb {
       font-size: 70px !important;
@@ -68,3 +49,12 @@ body {
       position: absolute;
       top: 25px;
       right: -30px; }
+
+.humidity {
+  position: absolute;
+  width: 500px;
+  display: block;
+  bottom: 110px;
+  font-size: 20px;
+  margin: 0 auto;
+  color: #00D9D9; }
