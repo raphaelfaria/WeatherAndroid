@@ -17,6 +17,9 @@ $(function() {
   var elem = document.getElementById('circle-app');
   var ctx = elem.getContext('2d');
 
+  var midHor = elem.width/2;
+  var midVer = elem.height/2;
+
   var bg;
   var bgc;
 
@@ -98,31 +101,33 @@ $(function() {
     tempWrapper.append(markup);
     humidityWrapper.html(hum + '%');
 
-    // var hours = 7.5; 7.5 or 4.5
-    var hours = d.getHours() - 12 + ((d.getMinutes() * 5/3) / 100);
+    var hours = 1.5; //7.5 or 4.5
+    // var hours = d.getHours() - 12 + ((d.getMinutes() * 5/3) / 100);
     console.log(hours);
 
     //clock holder draw
-    drawStroke(240, 0, 2 * pi, 20, bgc);
+    drawStroke(midHor, midVer, 240, 0, 2 * pi, 20, bgc); //circle
 
     var clockAngleFixer = 0.5 * pi;
 
     //clock draw
-    var clockColour = getColour(temp);
+    var clockColour =  '#' + getColour(temp);
 
-    if (hours == 4.5 || 7.5)
-      drawStroke(240, -0.500001 * pi, (hours/6 - 0.5) * pi, 20, clockColour);
+    if (hours == 1.5 || 4.5 || 7.5 || 10.5)
+      drawStroke(midHor, midVer, 240, -0.50001 * pi, (hours/6 - 0.5) * pi, 20, clockColour);
     else
-      drawStroke(240, -0.5 * pi, (hours/6 - 0.5) * pi, 20, clockColour);
+      drawStroke(midHor, midVer, 240, -0.5 * pi, (hours/6 - 0.5) * pi, 20, clockColour);
 
     //hum holder draw
-    drawStroke(220, 0.25 * pi, 0.75 * pi, 1, "#00D9D9")
+    var humInd = (100 - hum) / 100 * 0.25;
+    drawStroke(midHor, midVer, 218, (0.25 + humInd) * pi, (0.75 - humInd) * pi, 4, "#00D9D9");
+    // drawStroke(midHor, midVer, 220, 0.25 * pi, 0.75 * pi, 1, "#00D9D9")
 
     //hum indicator draw
 
-    var humInd = (100 - hum) / 100 * 0.25;
+    // var humInd = (100 - hum) / 100 * 0.25;
 
-    drawFill(220, (0.25 + humInd) * pi, (0.75 - humInd) * pi, 1, "#00D9D9");
+    // drawFill(220, (0.25 + humInd) * pi, (0.75 - humInd) * pi, 1, "#00D9D9");
 
   }
 
@@ -143,17 +148,17 @@ $(function() {
       }
   }
 
-  function drawStroke(radius, begin, end, width, colour) {
+  function drawStroke(midh, midv, radius, begin, end, width, colour) {
     ctx.beginPath();
-    ctx.arc(250, 250, radius, begin, end);
+    ctx.arc(midh, midv, radius, begin, end);
     ctx.lineWidth = width;
     ctx.strokeStyle = colour;
     ctx.stroke();
   }
 
-  function drawFill(radius, begin, end, width, colour) {
+  function drawFill(midh, midv, radius, begin, end, width, colour) {
     ctx.beginPath();
-    ctx.arc(250, 250, radius, begin, end);
+    ctx.arc(midh, midv, radius, begin, end);
     ctx.lineWidth = width;
     ctx.fillStyle = colour;
     ctx.fill();
